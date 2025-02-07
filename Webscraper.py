@@ -36,14 +36,11 @@ if remote:
     )
 else:
     driver = webdriver.Chrome()
-
 # Apartment scraping parameters
 Price_Limit = 2000
 Rooms = 3
 Stadtteile = ["Binnenstad", "Jekerkwartier", "Kommelkwartier", "Statenkwartier", "Boschstraatkwartier", "Sint Maartenspoort", "Wyck"]
-
 apartments = {}
-
 def dismiss_overlay():
     try:
         time.sleep(random.uniform(2, 4))  # Simulate reading the popup
@@ -96,7 +93,7 @@ def add_to_Dic(URLs, prices, rooms, areas):
 def get_next_url():
     try:
         next_button = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, "a.pagination__liKingnoname04nk.pagination__link--next"))
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "a.pagination__link.pagination__link--next"))
         )
         driver.execute_script("arguments[0].scrollIntoView(true);", next_button)
         return next_button.get_attribute("href")
@@ -129,7 +126,6 @@ def dismiss_all_overlays():
         overlay_button.click()
     except Exception:
         pass
-
 def wait_for_page_load():
     try:
         WebDriverWait(driver, 10).until(
@@ -137,7 +133,6 @@ def wait_for_page_load():
         )
     except Exception as e:
         print(f"Error waiting for page to load: {e}")
-
 
 driver.get(os.getenv("website"))
 wait_for_page_load()
@@ -204,7 +199,6 @@ password = os.getenv("email_pass")
 email_empfaenger = os.getenv("email_rec")
 
 # Send the email with smtp
-
 with smtplib.SMTP("smtp.gmail.com", 587) as connection:
     connection.starttls()
     connection.login(user=email, password=password)
@@ -213,5 +207,4 @@ with smtplib.SMTP("smtp.gmail.com", 587) as connection:
         to_addrs=email_empfaenger,
         msg=email_content
     )
-
 print("Email sent")
